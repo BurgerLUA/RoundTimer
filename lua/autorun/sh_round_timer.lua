@@ -207,6 +207,11 @@ function RoundTimerHUD()
 			NextSound = NewCurTime + 1
 		elseif Seconds == 60 then
 			LocalPlayer():EmitSound("ut/cd1min.wav")
+			
+			if World:GetNWBool("RTWarmup",true) == false then
+				LocalPlayer():EmitSound("ut/music" .. math.random(1,3) .. ".wav")
+			end
+		
 			NextSound = NewCurTime + 1
 		elseif Seconds == 30 then
 			LocalPlayer():EmitSound("ut/cd30sec.wav")
