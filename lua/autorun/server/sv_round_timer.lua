@@ -2,6 +2,8 @@
 
 function RoundTimerStart(ply,cmd,args)
 
+	local World = game.GetWorld( )
+
 	if type(tonumber(args[1])) ~= "number" then return end
 	
 	local RoundDelay = 60*args[1]
@@ -12,6 +14,8 @@ function RoundTimerStart(ply,cmd,args)
 	print("ROUND TIME IS " .. args[1] .. " MINUTES")
 	
 	AdjustSounds()
+	
+	World:SetNWBool("RTScoreBoard",false)
 
 end
 
@@ -58,46 +62,59 @@ function RoundStart(RoundLength,RoundDelay)
 		World:SetNWInt("NewCurTime",TimePassed)
 		
 		if TimePassed >= RoundLength then
-			RoundEnd()
 			timer.Destroy("RTSecondTick")
+			AskForWinner()
 		end
 	
 	end)
 	
 end
 
-function RoundEnd()
-	
-	local Winner = AskForWinner()
-	
-	print("THE WINNER IS ".. Winner:Nick())
-	
-	if Winner ~= Entity(0) then
-		WinningEffects(Winner)
-		CleanUpEnts()
-	end
+local nextsend = 0
 
+--[[
+function Debug()
+
+	if CurTime() > nextsend then
+		AskForWinner()
+		nextsend = CurTime() + 5
+	end
+	 
 end
+
+hook.Add("Think","DEBUG",Debug)
+--]]
+
+
 
 function AskForWinner()
 
 	local PreviousFrags = 0
-	local Winner = Entity(0)
  
+	local scoretable = {}
+
 	for k,v in pairs(player.GetAll()) do
-
-		if PreviousFrags < v:Frags() then
-			PreviousFrags = v:Frags()
-			Winner = v
-		end
 		
-	end
+		scoretable[v] = v:Frags()
+		
+		--table.Add(scoretable, v = v:Frags() )
 	
-	return Winner
+	end
 
+	scoretable = table.SortByKey(scoretable)
+	winner = scoretable[1]
+	
+
+	WinningEffects(winner)
+	SendRoundInfo(winner,scoretable)
+	CleanUpEnts()
+	
+	
 end
 
 function WinningEffects(Winner)
+
+	local World = game.GetWorld( )
 
 	for k,v in pairs( player.GetAll() ) do
 	
@@ -115,9 +132,12 @@ function WinningEffects(Winner)
 			v:ConCommand("act dance")
 		end
 		
-		SendRoundSound(Winner)
+		
 
 	end
+	
+	World:SetNWBool("RTScoreBoard",true)
+	
 	
 	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"0.1","1.1"}) end)
 	
@@ -133,18 +153,12 @@ function CleanUpEnts()
 	end
 end
 
-function SendRoundSound(winner)
+function SendRoundInfo(winner,scoretable)
 
 	net.Start("SendRoundInfo")
 		net.WriteEntity(winner)
+		net.WriteTable(scoretable)
 	net.Broadcast()
-
-
-	--v:EmitSound("ut/wildwastelandend"..Random2 .. ".wav")
-
-	--
-
-	--v:EmitSound("ut/Winner.wav")
 
 end
 
@@ -159,19 +173,19 @@ function AdjustSounds()
 	
 	rand1 = math.random(1,100)
 	
-	if num1 < 9 then
+	if num1 < 10 then
 		num1 = num1 + 1
 	else
 		num1 = 1
 	end
 	
-	if num2 < 5 then
+	if num2 < 7 then
 		num2 = num2 + 1
 	else
 		num2 = 1
 	end
 	
-	if num3 < 6 then
+	if num3 < 12 then
 		num3 = num3 + 1
 	else
 		num3 = 1
