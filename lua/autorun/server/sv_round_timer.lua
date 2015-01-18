@@ -173,19 +173,19 @@ function AdjustSounds()
 	
 	rand1 = math.random(1,100)
 	
-	if num1 < 10 then
+	if num1 < 9 then
 		num1 = num1 + 1
 	else
 		num1 = 1
 	end
 	
-	if num2 < 7 then
+	if num2 < 9 then
 		num2 = num2 + 1
 	else
 		num2 = 1
 	end
 	
-	if num3 < 12 then
+	if num3 < 17 then
 		num3 = num3 + 1
 	else
 		num3 = 1

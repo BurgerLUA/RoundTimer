@@ -18,14 +18,14 @@ net.Receive( "SendRoundInfo", function( len )
 		--if Random < 40 then
 		--	LocalPlayer():EmitSound("ut/Winner.wav")
 		--else
-			LocalPlayer():EmitSound("ut/wildwastelandwin"..WinTrack..".wav")
+			LocalPlayer():EmitSound("ut/win"..WinTrack..".mp3")
 		--end
 
 	else
 		--if Random < 40 then
 			--LocalPlayer():EmitSound("ut/lostmatch.wav")
 		--else
-			LocalPlayer():EmitSound("ut/wildwastelandlost".. LoseTrack ..".wav")
+			LocalPlayer():EmitSound("ut/lose".. LoseTrack ..".mp3")
 		--end
 		
 	end
