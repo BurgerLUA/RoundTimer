@@ -139,7 +139,7 @@ function WinningEffects(Winner)
 	World:SetNWBool("RTScoreBoard",true)
 	
 	
-	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"0.1","1.1"}) end)
+	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"0.1","5"}) end)
 	
 end
 
