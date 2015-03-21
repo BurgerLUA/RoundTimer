@@ -139,7 +139,7 @@ function WinningEffects(Winner)
 	World:SetNWBool("RTScoreBoard",true)
 	
 	
-	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"0.1","5"}) end)
+	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"1","10"}) end)
 	
 end
 
@@ -152,6 +152,8 @@ function CleanUpEnts()
 		
 	end
 end
+
+util.AddNetworkString( "SendRoundInfo" )
 
 function SendRoundInfo(winner,scoretable)
 
@@ -202,4 +204,18 @@ function AdjustSounds()
 
 end
 
-util.AddNetworkString( "SendRoundInfo" )
+function RoundTimerEnableImmunity(ply,attacker)
+
+	local World = game.GetWorld( )
+
+	if World:GetNWBool("RTWarmup",false) == true then
+		return false
+	else
+		return true
+	end
+
+end
+
+hook.Add("PlayerShouldTakeDamage","Round Timer: Build Timer Immunity",RoundTimerEnableImmunity)
+
+
