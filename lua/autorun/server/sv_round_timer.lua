@@ -139,7 +139,7 @@ function WinningEffects(Winner)
 	World:SetNWBool("RTScoreBoard",true)
 	
 	
-	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"1","10"}) end)
+	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"1","5"}) end)
 	
 end
 
@@ -175,6 +175,7 @@ function AdjustSounds()
 	
 	rand1 = math.random(1,100)
 	
+	--[[
 	if num1 < 9 then
 		num1 = num1 + 1
 	else
@@ -192,10 +193,16 @@ function AdjustSounds()
 	else
 		num3 = 1
 	end
+	--]]
 	
-	print( num1 )
-	print( num2 )
-	print( num3 )
+	num1 = math.random(1,10)
+	num2 = math.random(1,9)
+	num3 = math.random(1,17)
+	
+	
+	--print( num1 )
+	--print( num2 )
+	--print( num3 )
 	
 	World:SetNWInt("100Chance",rand1)
 	World:SetNWInt("MusicTrack",num1)
