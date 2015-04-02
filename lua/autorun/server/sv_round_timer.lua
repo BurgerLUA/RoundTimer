@@ -8,10 +8,12 @@ function RoundTimerStart(ply,cmd,args)
 	
 	local RoundDelay = 60*args[1]
 	local RoundLength = 60*args[2] + RoundDelay + 2
+	
+	local Original = args
 
-	RoundStart(RoundLength,RoundDelay)
+	RoundStart(RoundLength,RoundDelay,Original)
 
-	print("ROUND TIME IS " .. args[1] .. " MINUTES")
+	--print("ROUND TIME IS " .. args[1] .. " MINUTES")
 	
 	AdjustSounds()
 	
@@ -22,7 +24,7 @@ end
 concommand.Add("starttimer",RoundTimerStart)
 
 
-function RoundStart(RoundLength,RoundDelay)
+function RoundStart(RoundLength,RoundDelay,Original)
 
 	local World = game.GetWorld( )
 
@@ -63,7 +65,7 @@ function RoundStart(RoundLength,RoundDelay)
 		
 		if TimePassed >= RoundLength then
 			timer.Destroy("RTSecondTick")
-			AskForWinner()
+			AskForWinner(Original)
 		end
 	
 	end)
@@ -87,7 +89,7 @@ hook.Add("Think","DEBUG",Debug)
 
 
 
-function AskForWinner()
+function AskForWinner(Original)
 
 	local PreviousFrags = 0
  
@@ -105,14 +107,14 @@ function AskForWinner()
 	winner = scoretable[1]
 	
 
-	WinningEffects(winner)
+	WinningEffects(winner,Original)
 	SendRoundInfo(winner,scoretable)
 	CleanUpEnts()
 	
 	
 end
 
-function WinningEffects(Winner)
+function WinningEffects(Winner,Original)
 
 	local World = game.GetWorld( )
 
@@ -139,7 +141,7 @@ function WinningEffects(Winner)
 	World:SetNWBool("RTScoreBoard",true)
 	
 	
-	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{"0.1","5"}) end)
+	timer.Simple(10,function() RoundTimerStart(Entity(0),"anus",{tostring(Original[1]),tostring(Original[2])}) end)
 	
 end
 
