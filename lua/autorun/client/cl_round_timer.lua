@@ -79,7 +79,6 @@ function RoundTimerHUD()
 				LocalPlayer():EmitSound("hl1/fvox/seven.wav")
 			elseif Seconds == 6 then
 				LocalPlayer():EmitSound("hl1/fvox/six.wav")
-			--]]
 			if Seconds == 5 then
 				LocalPlayer():EmitSound("vo/announcer_begins_5sec.mp3")
 			elseif Seconds == 4 then
@@ -91,6 +90,10 @@ function RoundTimerHUD()
 			elseif Seconds == 1	then	
 				LocalPlayer():EmitSound("vo/announcer_begins_1sec.mp3")
 			end
+			--]]
+			
+			LocalPlayer():EmitSound("sound\ut\cd" .. Seconds .. ".wav")
+			
 
 			NextSound = NewCurTime + 1
 		elseif Seconds == 300 then

@@ -197,8 +197,8 @@ function AdjustSounds()
 	end
 	--]]
 	
-	num1 = math.random(1,10)
-	num2 = math.random(1,9)
+	num1 = math.random(1,13)
+	num2 = math.random(1,10)
 	num3 = math.random(1,17)
 	
 	
