@@ -92,7 +92,7 @@ function RoundTimerHUD()
 			end
 			--]]
 			
-			LocalPlayer():EmitSound("sound\ut\cd" .. Seconds .. ".wav")
+			LocalPlayer():EmitSound("ut/cd" .. Seconds .. ".wav")
 			
 
 			NextSound = NewCurTime + 1
